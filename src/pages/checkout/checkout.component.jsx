@@ -24,9 +24,11 @@ const CheckoutPage = ({ cartItems, total }) => (
         <span>Remove</span>
       </div>
     </div>
-    {cartItems.map((cartItem) => (
-      <CheckoutItem key={cartItem.id} cartItem={cartItem} />
-    ))}
+    {cartItems
+      ? cartItems.map((cartItem) => (
+          <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+        ))
+      : null}
     <div className="total">TOTAL: ${total}</div>
     <div className="test-warning">
       *Please use the following test credit card for payments*

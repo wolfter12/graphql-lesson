@@ -1,6 +1,6 @@
 import React from 'react';
-import { gql } from 'apollo-boost';
-import { graphql } from '@apollo/react-hoc';
+import { gql } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 import { flowRight } from 'lodash';
 
 import CartIcon from './cart-icon.component';

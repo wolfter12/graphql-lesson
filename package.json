@@ -3,21 +3,21 @@
   "version": "0.1.0",
   "proxy": "http://localhost:5000",
   "private": true,
+  "engineStrict": true,
+  "engines": {
+    "node": "16.6.1",
+    "npm": "7.20.5"
+  },
   "dependencies": {
-    "apollo-boost": "^0.4.9",
+    "@apollo/client": "^3.4.7",
     "firebase": "8.8.0",
     "graphql": "^15.5.1",
     "lodash": "^4.17.21",
     "node-sass": "6.0.1",
     "react": "^17.0.2",
-    "react-apollo": "^3.1.5",
     "react-dom": "^17.0.2",
-    "react-redux": "7.2.4",
     "react-router-dom": "5.2.0",
     "react-stripe-checkout": "2.6.3",
-    "redux": "4.1.0",
-    "redux-logger": "3.0.6",
-    "redux-persist": "6.0.0",
     "reselect": "4.0.0"
   },
   "devDependencies": {

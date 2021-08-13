@@ -1,6 +1,7 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import { flowRight } from 'lodash';
+import { gql } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 
 import CollectionsOverview from './collections-overview.component';
 import Spinner from '../spinner/spinner.component';
@@ -20,18 +21,16 @@ const GET_COLLECTIONS = gql`
   }
 `;
 
-const CollectionsOverviewContainer = () => (
-  <Query query={GET_COLLECTIONS}>
-    {({ loading, error, data }) => {
-      {/* console.log({ loading });
-      console.log({ error });
-      console.log({ data }); */}
-      if (loading) {
-        return <Spinner />;
-      }
-      return <CollectionsOverview collections={data.collections} />;
-    }}
-  </Query>
-);
+const CollectionsOverviewContainer = ({ data }) => {
+  const { loading } = data;
 
-export default CollectionsOverviewContainer;
+  if (loading) {
+    return <Spinner />;
+  }
+  const { collections = [] } = data;
+  return <CollectionsOverview collections={collections} />;
+};
+
+export default flowRight(graphql(GET_COLLECTIONS))(
+  CollectionsOverviewContainer
+);

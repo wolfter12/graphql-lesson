@@ -1,6 +1,7 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import { flowRight } from 'lodash';
+import { gql } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 
 import CollectionPage from './collection.component';
 import Spinner from '../../components/spinner/spinner.component';
@@ -20,19 +21,21 @@ const GET_COLLECTION_BY_TITLE = gql`
   }
 `;
 
-const CollectionPageContainer = ({ match }) => (
-  <Query
-    query={GET_COLLECTION_BY_TITLE}
-    variables={{ title: match.params.collectionId }}
-  >
-    {({ loading, data }) => {
-      if (loading) {
-        return <Spinner />;
-      }
-      const { getCollectionsByTitle } = data;
-      return <CollectionPage collection={getCollectionsByTitle} />;
-    }}
-  </Query>
-);
+const CollectionPageContainer = ({
+  data: { loading, getCollectionsByTitle },
+}) => {
+  if (loading) {
+    return <Spinner />;
+  }
+  return <CollectionPage collection={getCollectionsByTitle} />;
+};
 
-export default CollectionPageContainer;
+export default flowRight(
+  graphql(GET_COLLECTION_BY_TITLE, {
+    options: ({ match }) => ({
+      variables: {
+        title: match.params.collectionId,
+      },
+    }),
+  })
+)(CollectionPageContainer);

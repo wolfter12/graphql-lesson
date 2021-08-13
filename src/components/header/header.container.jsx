@@ -1,6 +1,7 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import { flowRight } from 'lodash';
+import { gql } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 
 import Header from './header.component';
 
@@ -11,12 +12,8 @@ const GET_CLIENT_PROPERTIES = gql`
   }
 `;
 
-const HeaderContainer = () => (
-  <Query query={GET_CLIENT_PROPERTIES}>
-    {({ data: { cartHidden, currentUser } }) => (
-      <Header hidden={cartHidden} currentUser={currentUser} />
-    )}
-  </Query>
+const HeaderContainer = ({ data: { cartHidden, currentUser } }) => (
+  <Header hidden={cartHidden} currentUser={currentUser} />
 );
 
-export default HeaderContainer;
+export default flowRight(graphql(GET_CLIENT_PROPERTIES))(HeaderContainer);
